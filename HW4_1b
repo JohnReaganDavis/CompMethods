@@ -1,0 +1,36 @@
+function main
+    % Call the functions
+    bisection(-0.4, 0, 0.0001, 4);
+    newton_raphson(-0.2, 0.0001, 4); 
+end
+
+% Bisection Method
+function bisection(xl, xu, es, maxit)
+    fl = cos(2*pi*xl) - exp(2*xl) + xl + 1;
+    for iter = 1:maxit
+        xr = (xl + xu) / 2;
+        fr = cos(2*pi*xr) - exp(2*xr) + xr + 1;
+        if xr ~= 0, ea = abs((xr - xl) / xr) * 100; end
+        if ea < es || fr == 0, break, end
+        if fl * fr < 0
+            xu = xr;
+        else
+            xl = xr;
+            fl = fr;
+        end
+    end
+    fprintf('Root by Bisection: %f\n', xr);
+end
+
+% Newton-Raphson Method
+function newton_raphson(x0, es, maxit)
+    for iter = 1:maxit
+        f = cos(2*pi*x0) - exp(2*x0) + x0 + 1;
+        df = -2*pi*sin(2*pi*x0) - 2*exp(2*x0) + 1;
+        x1 = x0 - f / df;
+        if x1 ~= 0, ea = abs((x1 - x0) / x1) * 100; end
+        if ea < es || f == 0, break, end
+        x0 = x1;
+    end
+    fprintf('Root by Newton-Raphson: %f\n', x1);
+end
