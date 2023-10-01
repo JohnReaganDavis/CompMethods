@@ -1,0 +1,46 @@
+% Clear workspace and close all figures
+clear, clc, close all;
+
+% Define the day vector
+days = [15 45 75 105 135 165 195 225 255 285 315 345];
+
+% Define the temperature vectors
+TFDV = [54 60 69 77 87 96 102 101 92 78 63 52];
+TCSP = [-27 -40 -53 -56 -57 -57 -59 -59 -59 -50 -38 -27];
+
+% Convert temperatures
+TCDV = TempConv(TFDV, 'C');
+TFSP = TempConv(TCSP, 'F');
+
+% Create a 2-panel stackded plot
+figure;
+
+% Top panel for Celsius
+subplot(2,1,1);
+plot(days, TCDV, '-o', 'DisplayName', 'Death Valley');
+hold on;
+plot(days, TCSP, '-o', 'DisplayName', 'South Pole');
+title('Temperature vs Day (Celsius)');
+xlabel('Day');
+ylabel('Temperature (°C)');
+legend;
+grid on;
+
+% Bottom panel for Fahrenheit
+subplot(2,1,2);
+plot(days, TFDV, '-o', 'DisplayName', 'Death Valley');
+hold on;
+plot(days, TFSP, '-o', 'DisplayName', 'South Pole');
+title('Temperature vs Day (Fahrenheit)');
+xlabel('Day');
+ylabel('Temperature (°F)');
+legend;
+grid on;
+
+% Test of error trap
+try
+    TKSP = TempConv(TCSP, 'K');
+catch ME
+    fprintf('Error: %s\n', ME.message);
+end
+
