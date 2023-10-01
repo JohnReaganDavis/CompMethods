@@ -1,0 +1,50 @@
+% Define the units and conversion factors
+U = {'psi', 'atm', 'inHg', 'kg/cm^2', 'inH2O', 'Pa', 'bar', 'dyne/cm^2', 'mmHg', 'torr', 'kst'};
+C = [6894.76, 101325, 3376.85, 98066.5, 248.843, 1, 100000, 0.1, 133.322, 133.322, 6894760];
+
+while true % Main loop
+    % Display available units
+    fprintf('Available units:\n');
+    for i = 1:length(U)
+        fprintf('%d: %s\n', i, U{i});
+    end
+    
+    % Get input unit
+    i = input('Enter the index of the input unit: ');
+    if i < 1 || i > length(U) || mod(i, 1) ~= 0
+        fprintf('Invalid index. Please enter a number between 1 and %d.\n', length(U));
+        continue;
+    end
+    
+    % Get input pressure value
+    Pi = input('Enter the value of pressure: ');
+    
+    while true % Conversion loop
+        % Get output unit
+        j = input('Enter the index of the output unit: ');
+        if j < 1 || j > length(U) || mod(j, 1) ~= 0
+            fprintf('Invalid index. Please enter a number between 1 and %d.\n', length(U));
+            continue;
+        end
+        
+        % Perform conversion
+        Pa = Pi * C(i) / C(j);
+        fprintf('%.3f %s is equivalent to %.3f %s\n', Pi, U{i}, Pa, U{j});
+        
+        % Ask if another output result for the same input is desired
+        another = input('Do you want to convert to another unit? (y/n): ', 's');
+        if strcmpi(another, 'n')
+            break;
+        elseif ~strcmpi(another, 'y')
+            fprintf('Invalid response. Please enter y or n.\n');
+        end
+    end
+    
+    % Ask if another conversion is desired
+    another = input('Do you want to perform another conversion? (y/n): ', 's');
+    if strcmpi(another, 'n')
+        break;
+    elseif ~strcmpi(another, 'y')
+        fprintf('Invalid response. Please enter y or n.\n');
+    end
+end
