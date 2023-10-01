@@ -1,0 +1,13 @@
+function convertedTemp = TempConv(inputTemp, unit)
+    if nargin < 2
+        error('Not enough input arguments. Please provide temperature and unit.');
+    end
+    
+    if unit == 'C' || unit == 'c'
+        convertedTemp = (inputTemp - 32) * 5/9; % Convert Fahrenheit to Celsius
+    elseif unit == 'F' || unit == 'f'
+        convertedTemp = inputTemp * 9/5 + 32; % Convert Celsius to Fahrenheit
+    else
+        error('Invalid unit. Please enter ''C'' for Celsius or ''F'' for Fahrenheit.');
+    end
+end
