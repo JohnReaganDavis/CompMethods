@@ -1,0 +1,57 @@
+function [t, y] = euler_method(dydt, tspan, y0, h)
+% Euler's method to solve an ODE.
+%
+% Input:
+%   dydt  - Function handle for the ODE (dy/dt = f(t, y))
+%   tspan - 2-element vector specifying the interval of integration [t0, tf]
+%   y0    - Initial value
+%   h     - Step size
+%
+% Output:
+%   t - Vector of time points
+%   y - Vector of solution values
+
+    t0 = tspan(1);
+    tf = tspan(2);
+
+    % Number of steps
+    N = ceil((tf - t0) / h);
+
+    % Initialize vectors for time and solution
+    t = zeros(1, N+1);
+    y = zeros(1, N+1);
+
+    % Set initial conditions
+    t(1) = t0;
+    y(1) = y0;
+
+    % Iterate using Euler's method
+    for i = 1:N
+        y(i+1) = y(i) + h * dydt(t(i), y(i));
+        t(i+1) = t(i) + h;
+    end
+end
+
+
+--------------------------example--------------------------
+
+dydt = @(t, y) -2*y;
+
+% Time span [t0, tf]
+tspan = [0, 2];
+
+% Initial value
+y0 = 1;
+
+% Step size
+h = 0.1;
+
+[t, y] = euler_method(dydt, tspan, y0, h);
+
+% Plot the solution
+plot(t, y, '-o', 'DisplayName', 'Euler''s method');
+xlabel('t');
+ylabel('y(t)');
+legend;
+grid on;
+title('Solution using Euler''s Method');
