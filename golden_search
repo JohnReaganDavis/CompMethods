@@ -1,0 +1,46 @@
+function [x_min, f_min, iterations] = golden_search(f, a, b, tol)
+% Golden section search to find the minimum of a function.
+%
+% Input:
+%   f    - Function handle for the function
+%   a, b - Interval [a, b] in which to search for the minimum
+%   tol  - Tolerance for stopping criterion
+%
+% Output:
+%   x_min      - Approximated location of the minimum
+%   f_min      - Function value at x_min
+%   iterations - Number of iterations taken
+
+    % Golden ratio
+    phi = (1 + sqrt(5)) / 2;
+    rho = 1 / phi;
+
+    % Initial points
+    c = a + rho * (b - a);
+    d = a + (1 - rho) * (b - a);
+
+    fc = f(c);
+    fd = f(d);
+
+    iterations = 0;
+
+    while abs(b - a) > tol
+        if fc < fd
+            b = d;
+            d = c;
+            c = a + rho * (b - a);
+            fd = fc;
+            fc = f(c);
+        else
+            a = c;
+            c = d;
+            d = a + (1 - rho) * (b - a);
+            fc = fd;
+            fd = f(d);
+        end
+        iterations = iterations + 1;
+    end
+
+    x_min = (a + b) / 2;
+    f_min = f(x_min);
+end
