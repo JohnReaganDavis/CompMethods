@@ -1,0 +1,52 @@
+function [root, iterations] = newton_raphson(f, df, x0, tol, max_iter)
+% Newton-Raphson method to find the root of a function.
+%
+% Input:
+%   f        - Function handle for the function
+%   df       - Function handle for the derivative of f
+%   x0       - Initial guess
+%   tol      - Tolerance for stopping criterion
+%   max_iter - Maximum number of iterations
+%
+% Output:
+%   root       - Approximated root of the function
+%   iterations - Number of iterations taken
+
+    % Initialize
+    x = x0;
+    iterations = 0;
+
+    while iterations < max_iter
+        % Compute the next approximation
+        x_new = x - f(x)/df(x);
+        
+        % Check for convergence
+        if abs(x_new - x) < tol
+            root = x_new;
+            return;
+        end
+        
+        x = x_new;
+        iterations = iterations + 1;
+    end
+
+    % If maximum iterations reached without convergence
+    warning('Newton-Raphson method did not converge after %d iterations.', max_iter);
+    root = x;
+end
+
+
+---------------------------example---------------------------
+f = @(x) x^2 - 2;
+df = @(x) 2*x;
+
+% Initial guess
+x0 = 1;
+
+% Tolerance and maximum iterations
+tol = 1e-6;
+max_iter = 1000;
+
+[root, iterations] = newton_raphson(f, df, x0, tol, max_iter);
+
+fprintf('Root: %f, Iterations: %d\n', root, iterations);
