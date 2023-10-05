@@ -1,0 +1,55 @@
+function [root, iterations] = bisection(f, a, b, tol, max_iter)
+% Bisection method to find the root of a function.
+%
+% Input:
+%   f        - Function handle for the function
+%   a, b     - Interval [a, b] in which to search for the root
+%   tol      - Tolerance for stopping criterion
+%   max_iter - Maximum number of iterations
+%
+% Output:
+%   root       - Approximated root of the function
+%   iterations - Number of iterations taken
+
+    if f(a) * f(b) > 0
+        error('f(a) and f(b) must have different signs.');
+    end
+
+    iterations = 0;
+    while (b - a) / 2 > tol && iterations < max_iter
+        c = (a + b) / 2;
+        
+        if f(c) == 0
+            break;
+        elseif f(c) * f(a) < 0
+            b = c;
+        else
+            a = c;
+        end
+        
+        iterations = iterations + 1;
+    end
+
+    root = (a + b) / 2;
+
+    if iterations == max_iter
+        warning('Bisection method reached the maximum number of iterations.');
+    end
+end
+
+
+
+------------------------------------------example------------------------------------------------
+f = @(x) x^2 - 2;
+
+% Interval [a, b]
+a = 1;
+b = 2;
+
+% Tolerance and maximum iterations
+tol = 1e-6;
+max_iter = 1000;
+
+[root, iterations] = bisection(f, a, b, tol, max_iter);
+
+fprintf('Root: %f, Iterations: %d\n', root, iterations);
