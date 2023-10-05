@@ -44,3 +44,20 @@ function [x_min, f_min, iterations] = golden_search(f, a, b, tol)
     x_min = (a + b) / 2;
     f_min = f(x_min);
 end
+
+
+
+-----------------------example-----------------------
+f = @(x) x^2 - 2;
+
+% Two initial guesses
+x0 = 1;
+x1 = 2;
+
+% Tolerance and maximum iterations
+tol = 1e-6;
+max_iter = 1000;
+
+[root, iterations] = secant_method(f, x0, x1, tol, max_iter);
+
+fprintf('Root: %f, Iterations: %d\n', root, iterations);
