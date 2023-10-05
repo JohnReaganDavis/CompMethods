@@ -1,0 +1,53 @@
+function [root, iterations] = secant_method(f, x0, x1, tol, max_iter)
+% Secant method to find the root of a function.
+%
+% Input:
+%   f        - Function handle for the function
+%   x0, x1   - Two initial guesses
+%   tol      - Tolerance for stopping criterion
+%   max_iter - Maximum number of iterations
+%
+% Output:
+%   root       - Approximated root of the function
+%   iterations - Number of iterations taken
+
+    iterations = 0;
+
+    while iterations < max_iter
+        % Compute the next approximation using the secant formula
+        x2 = x1 - f(x1) * (x1 - x0) / (f(x1) - f(x0));
+        
+        % Check for convergence
+        if abs(x2 - x1) < tol
+            root = x2;
+            return;
+        end
+        
+        % Update values for the next iteration
+        x0 = x1;
+        x1 = x2;
+        
+        iterations = iterations + 1;
+    end
+
+    % If maximum iterations reached without convergence
+    warning('Secant method did not converge after %d iterations.', max_iter);
+    root = x1;
+end
+
+
+
+------------------------example-----------------------------------
+f = @(x) x^2 - 2;
+
+% Two initial guesses
+x0 = 1;
+x1 = 2;
+
+% Tolerance and maximum iterations
+tol = 1e-6;
+max_iter = 1000;
+
+[root, iterations] = secant_method(f, x0, x1, tol, max_iter);
+
+fprintf('Root: %f, Iterations: %d\n', root, iterations);
