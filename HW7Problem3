@@ -1,0 +1,55 @@
+clc
+clear
+close
+
+% Define the matrix A and vector b
+A = [0.8, -0.4, 0; 
+    -0.4, 0.8, -0.4; 
+    0, -0.4, 0.8];
+b = [41; 25; 105];
+
+% Initial guess
+x = [0; 0; 0];
+
+% Tolerance and maximum number of iterations
+tol = 0.05;
+maxIter = 1000;
+
+% Part (a): Gauss-Seidel method
+x = gaussSeidel(A, b, x, tol, maxIter);
+disp('Solution for part (a):');
+disp(x);
+
+% Part (b): Overrelaxation with lambda = 1.2
+lambda = 1.2;
+x = gaussSeidelOverrelaxation(A, b, x, lambda, tol, maxIter);
+disp('Solution for part (b):');
+disp(x);
+
+% Gauss-Seidel method function
+function x = gaussSeidel(A, b, x, tol, maxIter)
+    n = length(b);
+    for k = 1:maxIter
+        x_old = x;
+        for i = 1:n
+            x(i) = (b(i) - A(i, [1:i-1, i+1:end]) * x([1:i-1, i+1:end])) / A(i, i);
+        end
+        if norm(x - x_old, inf) < tol
+            break;
+        end
+    end
+end
+
+% Gauss-Seidel with overrelaxation method function
+function x = gaussSeidelOverrelaxation(A, b, x, lambda, tol, maxIter)
+    n = length(b);
+    for k = 1:maxIter
+        x_old = x;
+        for i = 1:n
+            x(i) = (1-lambda)*x_old(i) + lambda*(b(i) - A(i, [1:i-1, i+1:end]) * x([1:i-1, i+1:end])) / A(i, i);
+        end
+        if norm(x - x_old, inf) < tol
+            break;
+        end
+    end
+end
