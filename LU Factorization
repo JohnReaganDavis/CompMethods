@@ -1,0 +1,21 @@
+% Define the matrix A and the right-hand side vector b
+A = [3, -2, 1;
+     2, 6, -4;
+     -1, -2, 5];
+b = [-10; -2; +5];
+
+% Perform LU factorization of matrix A
+[L, U, P] = lu(A);
+
+% Use the permutation matrix P to permute b accordingly
+b = P*b;
+
+% Solve Ly = Pb using forward substitution
+y = L\b;
+
+% Solve Ux = y using backward substitution
+x = U\y;
+
+% Display the result
+disp('The solution vector x is:');
+disp(x);
