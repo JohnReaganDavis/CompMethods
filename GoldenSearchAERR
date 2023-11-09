@@ -1,0 +1,55 @@
+clc 
+clear
+
+
+% Define the function to be minimized
+f = @(x) (x - 3)^2;
+
+% Define the range [a, b]
+a = 0;
+b = 5;
+
+% Maximum number of iterations
+max_iter = 20;
+
+% Golden ratio
+gr = (sqrt(5) - 1) / 2;
+
+% Initial points
+c = b - gr * (b - a);
+d = a + gr * (b - a);
+
+fprintf('Iter\t a\t\t c\t\t d\t\t b\t\t Approximate Error\n');
+
+% Golden Section Search
+for i = 1:max_iter
+    if f(c) < f(d)
+        b = d;
+        d = c;
+        c = b - gr * (b - a);
+    else
+        a = c;
+        c = d;
+        d = a + gr * (b - a);
+    end
+    
+    % Calculate approximate error
+    approxError = abs(c - d) / abs(c) * 100;
+    
+    fprintf('%d\t %f\t %f\t %f\t %f\t %f%%\n', i, a, c, d, b, approxError);
+    
+    % Check for convergence (you can define a tolerance instead)
+    if approxError < 1e-5
+        break;
+    end
+end
+
+% Final value of the function
+minValue = f((a + b) / 2);
+
+% Estimated position of the minimum
+xMin = (a + b) / 2;
+fprintf('The position of the minimum value of the function is approximately: %f\n', xMin);
+fprintf('The minimum value of the function at this position is: %f\n', minValue);
+
+
