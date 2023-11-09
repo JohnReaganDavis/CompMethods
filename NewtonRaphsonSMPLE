@@ -1,0 +1,10 @@
+clc
+clear
+y=@(x) (x-3)^2;%3*x^4-7*x^2+6*x+1;
+dy=@(x) 2*(x-3)%12*x^3-14*x+6;
+x0=1
+for i=1:10
+xnew=x0-y(x0)/dy(x0);
+x0=xnew;
+end
+y(xnew)
