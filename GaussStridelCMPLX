@@ -1,0 +1,28 @@
+% Define the matrix A and the right-hand side vector b
+A = [.8, -.4, 0; 
+     -.4, .8, -.4; 
+     0, -.4, .8];
+b = [41; 25; 105];
+
+% Initial guess for x
+x = zeros(length(b), 1);
+
+% Number of iterations
+iterations = 20;
+
+% Gauss-Seidel iteration
+for k = 1:iterations
+    for i = 1:length(b)
+        sum = 0;
+        for j = 1:length(b)
+            if j ~= i
+                sum = sum + A(i,j) * x(j);
+            end
+        end
+        x(i) = (b(i) - sum) / A(i,i);
+    end
+end
+
+% Display the result
+disp('The solution vector x is:');
+disp(x);
