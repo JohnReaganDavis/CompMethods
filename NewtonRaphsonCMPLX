@@ -1,0 +1,30 @@
+clc
+clear
+
+% Define the function and its derivative
+y = @(x) (x - 3)^2; % Example function
+dy = @(x) 2 * (x - 3); % Derivative of the function
+
+% Initial guess
+x0 = 1;
+xnew = 0;
+fprintf('i\t xnew\t\t Approximate Error\n');
+
+% Iteration process
+for i = 1:10
+    xnew = x0 - y(x0) / dy(x0); % Newton-Raphson formula
+    
+    % Calculate approximate error
+    if i > 1
+        approxError = abs((xnew - xold) / xnew) * 100;
+        fprintf('%d\t %f\t %f%%\n', i, xnew, approxError);
+    end
+    
+    % Update for next iteration
+    xold = x0; % Store old value for error calculation
+    x0 = xnew; % Update guess
+end
+
+% Final value of the function
+finalValue = y(xnew);
+fprintf('The final value of the function is: %f\n', finalValue);
