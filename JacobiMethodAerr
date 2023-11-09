@@ -1,0 +1,55 @@
+clc
+clear
+
+% Define the matrix A and the right-hand side vector b
+A = [5, -2, 3; 
+     -3, 9, 1; 
+     2, -1, -7];
+b = [-1; 2; 3];
+
+% Initial guess for x
+x = zeros(length(b), 1);
+
+% Maximum number of iterations
+max_iter = 100;
+
+% Tolerance for the stopping criterion
+tol = 1e-5;
+
+% Previous iteration vector for error computation
+x_prev = x;
+
+% Display header for output
+fprintf('Iter\t x(1)\t\t x(2)\t\t x(3)\t\t Error\n');
+
+% Jacobi iteration
+for iter = 1:max_iter
+    for i = 1:length(b)
+        % Compute the sum for the i-th equation excluding x(i)
+        sigma = A(i, :) * x - A(i, i) * x(i);
+        
+        % Update the i-th component of the solution
+        x(i) = (b(i) - sigma) / A(i, i);
+    end
+    
+    % Calculate the approximate relative error
+    err = max(abs(x - x_prev)) / max(abs(x));
+    
+    % Update previous vector
+    x_prev = x;
+    
+    % Display current iteration results
+    fprintf('%d\t', iter);
+    fprintf('%f\t', x);
+    fprintf('%f\n', err);
+    
+    % Check if the current solution is within the tolerance
+    if err < tol
+        fprintf('Converged after %d iterations\n', iter);
+        break;
+    end
+end
+
+% Display the result
+disp('The solution vector x is:');
+disp(x);
