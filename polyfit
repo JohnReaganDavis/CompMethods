@@ -1,0 +1,22 @@
+close
+clc
+clear
+
+density = [1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300];
+viscosity = [1.03, 1.12, 1.59, 1.76, 2.42, 2.51, 3.06, 3, 3.5] * 1e-3;
+
+% Fit a straight line to the data
+coefficients = polyfit(density, viscosity, 1);
+
+% Generate values for the fitted line
+fit_density = linspace(min(density), max(density));
+fit_viscosity = polyval(coefficients, fit_density);
+
+% Plot the data and the fitted line
+figure;
+plot(density, viscosity, 'bo', fit_density, fit_viscosity, 'r-');
+title('Viscosity vs Density');
+xlabel('Density (kg/m^3)');
+ylabel('Viscosity (10^-3 m^2/s)');
+legend('Data', 'Fitted Line');
+grid on;
